@@ -1,0 +1,60 @@
+program
+   : statement+
+   ;
+
+statement
+   : 'se' paren_expr statement
+   | 'se' paren_expr statement 'senao' statement
+   | 'enquanto' paren_expr statement
+   | '{' statement* '}'
+   | expr ';'
+   | ';'
+   ;
+
+paren_expr
+   : '(' expr ')'
+   ;
+
+expr
+   : test
+   | id '=' expr
+   ;
+
+test
+   : sum
+   | sum '<' sum
+   ;
+
+sum
+   : term
+   | sum '+' term
+   | sum '-' term
+   ;
+
+term
+   : id
+   | integer
+   | paren_expr
+   ;
+
+id
+   : STRING
+   ;
+
+integer
+   : INT
+   ;
+
+
+STRING
+   : [a-z]+
+   ;
+
+
+INT
+   : [0-9]+
+   ;
+
+WS
+   : [ \r\n\t] -> skip
+   ;
