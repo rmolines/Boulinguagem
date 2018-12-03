@@ -6,23 +6,20 @@ class Lexer():
         self.lexer = LexerGenerator()
 
     def _add_tokens(self):    
-        # Identifier
-        self.lexer.add('ID', r'\w+')
         # Brackets
-        self.lexer.add('O_BRACKET', r'\{')
-        self.lexer.add('C_BRACKET', r'\}')
+        self.lexer.add('O_KEY', r'\[')
+        self.lexer.add('C_KEY', r'\]')
         # While
         self.lexer.add('WHILE', r'wahrend')
         # Print
-        self.lexer.add('PRINT', r'schreibe')
+        self.lexer.add('PRINTF', r'schreibe')
         # Scanf
         self.lexer.add('SCANF', r'lehre')
         # If
         self.lexer.add('IF', r'ob')
         self.lexer.add('ELSE', r'sonst')
         # Parenthesis
-        self.lexer.add('OPEN_PAREN', r'\(')
-        self.lexer.add('CLOSE_PAREN', r'\)')
+        self.lexer.add('QUOTE', r'\'')
         # Semi Colon
         self.lexer.add('SEMI_COLON', r'\;')
         # Operators
@@ -34,9 +31,14 @@ class Lexer():
         self.lexer.add('IS_LESS', r'\<')
         self.lexer.add('IS_GREATER', r'\>')
         self.lexer.add('IS_EQUAL', r'\=\=')
-
+        # Return
+        self.lexer.add('RETURN', r'gib')
+        # Function
+        self.lexer.add('FUNC', r'funk')
         # Number
         self.lexer.add('NUMBER', r'\d+')
+        # Identifier
+        self.lexer.add('IDENTIFIER', r'\w+')
         # Ignore spaces
         self.lexer.ignore('\s+')
 
