@@ -26,18 +26,25 @@ funk main''[
 
 main'';"""
 
-text_input2 =  """
+text_input =  """
+funk mult'x,y'[
+    gib'x*y';
+]
 funk test''[
     x = 2;
     wahrend'x<5'[
         x=x+1;
     ]
-    gib'x';
+    gib'funk mult'x, 2'';
 ]
 
 funk main''[
     a = funk test'';
-    schreibe'x';
+    ob'a<11'[
+        schreibe'24';
+    ] sonst [
+        schreibe'35';
+    ]
 ]
 
 main'';"""
