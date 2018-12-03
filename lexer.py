@@ -6,6 +6,8 @@ class Lexer():
         self.lexer = LexerGenerator()
 
     def _add_tokens(self):    
+        # Comma
+        self.lexer.add('COMMA', r',')
         # Brackets
         self.lexer.add('O_KEY', r'\[')
         self.lexer.add('C_KEY', r'\]')

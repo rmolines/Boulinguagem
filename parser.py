@@ -9,7 +9,7 @@ class Parser():
              'SEMI_COLON', 'SUM', 'SUB', 'MULT', 'DIV',
              'MAIN', 'O_KEY', 'C_KEY', 'IF', 'WHILE', 'IDENTIFIER',
              'ELSE', 'EQUAL', 'IS_LESS', 'IS_GREATER', 'IS_EQUAL',
-             'RETURN', 'FUNC'
+             'RETURN', 'FUNC', 'COMMA'
              ]
         )
 
@@ -18,6 +18,7 @@ class Parser():
 
         @self.pg.production('main : program IDENTIFIER QUOTE QUOTE SEMI_COLON')
         def main_st(p):
+            st = SymbolTable(None)
             return (Main(p[0]))
 
         @self.pg.production('program : func_dec ')
@@ -30,8 +31,21 @@ class Parser():
                 return (p[0])
 
         @self.pg.production('func_dec : FUNC IDENTIFIER QUOTE QUOTE commands')
+        @self.pg.production('func_dec : FUNC IDENTIFIER QUOTE func_var QUOTE commands')
         def func_dec(p):
-            return FuncDec(p[1].getstr(), p[4])
+            if(len(p) == 5):
+                return FuncDec(p[1].getstr(), p[4], [])
+            else:
+                return FuncDec(p[1].getstr(), p[5], p[3])
+
+        @self.pg.production('func_var : IDENTIFIER')
+        @self.pg.production('func_var : func_var COMMA IDENTIFIER')
+        def func_var(p):
+            if (len(p) == 1):
+                return ([p[0].getstr()])
+            else:
+                p[0].append(p[2].getstr())
+                return(p[0])
 
         @self.pg.production('commands : O_KEY command_list C_KEY')
         def commands(p):
@@ -80,7 +94,20 @@ class Parser():
 
         @self.pg.production('expression : FUNC IDENTIFIER QUOTE QUOTE')
         def expression_func(p):
-            return (FuncCall(p[1].getstr()))
+            return (FuncCall(p[1].getstr(), []))
+
+        @self.pg.production('expression : FUNC IDENTIFIER QUOTE passing_args QUOTE')
+        def expression_func_with_args(p):
+            return (FuncCall(p[1].getstr(), p[3]))
+        
+        @self.pg.production('passing_args : expression')
+        @self.pg.production('passing_args : passing_args COMMA expression')
+        def passing_args(p):
+            if (len(p) == 1):
+                return ([p[0]])
+            else:
+                p[0].append(p[2])
+                return (p[0])
 
         @self.pg.production('bool_exp : expression IS_LESS expression')
         @self.pg.production('bool_exp : expression IS_GREATER expression')

@@ -3,12 +3,19 @@ from lexer import Lexer
 from parser import Parser
 
 text_input = """
+
+funk sum'x, y'[
+    gib'x+y';
+]
+
 funk main''[
     x = 6;
     y = 4;
+    o = funk sum'2, 2';
+    schreibe'o';
     wahrend 'y<x'[
         y=y+1;
-        lehre'z';
+        z = 24;
         ob 'y<z'[
             schreibe'z';
         ] sonst [
@@ -43,4 +50,5 @@ tokens = lexer.lex(text_input)
 pg = Parser()
 pg.parse()
 parser = pg.get_parser()
-parser.parse(tokens).eval()
+st = SymbolTable(None)
+parser.parse(tokens).eval(st)

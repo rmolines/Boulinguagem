@@ -13,6 +13,6 @@ class SymbolTable:
             st = st.ancestor
             if (st is None):
                 raise ValueError("id nao existe")
-                
-        return (self.valueTable[symbol])
+
+        return (st.valueTable[symbol])
     
