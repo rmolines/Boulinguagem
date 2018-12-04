@@ -1,0 +1,68 @@
+main : program 'main' QUOTE QUOTE SEMI_COLON;
+
+program
+    : func_dec 
+    | program func_dec
+    ;
+
+func_dec
+    : 'funk' id "''" commands
+    | 'func' id "'func_var'" commands
+    ;
+
+func_var
+    : id
+    | func_var ',' id
+    ;
+
+commands
+    : '[' command_list ']'
+    ;
+
+command_list
+    : command
+    | command_list command
+    ;
+
+command 
+    : 'ob' "'" bool_exp "'" commands
+    | "ob" "'" bool_exp "'" commands "sonst" commands
+    | "wahrend" "'" bool_exp "'" commands
+    | "gib" "'" expression "'" ";"
+    | "lehre" "'" id "'" ";"
+    | "schreibe" "'" id "'" ";"
+    | id "=" expression ";"
+    ; 
+
+expression
+    : "funk" id "'" "'"
+    | "funk" id "'" passing_args "'"
+    | term "+" term
+    | term "-" term
+    | term
+    ;
+
+term
+    : factor "*" factor
+    | factor "/" factor
+    | factor
+    ;
+
+factor
+    : number
+    | id
+    ;
+
+bool_exp
+    : expression ">" expression
+    | expression "<" expression
+    | expression "==" expression
+    ;
+
+id
+    :[a-z]+
+    ;
+
+number
+    : [0-9]+
+    ;
